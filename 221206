@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<corecrt.h>
+#include	<time.h>
+#include<conio.h>
+void help(void)
+{
+	printf("\n**************\n");
+	printf("打空格再玩一次\n");
+	printf("按esc推出\n");
+	printf("**************\n");
+}
+int main()
+{
+	char ch[51]={};
+	char a;
+	int i;
+	while (1)
+	{
+		system("cls");//清屏
+		help();
+		a = _getch();//这真是一个神奇的函数_getch
+		srand((unsigned int)time(NULL));//生成一个随机的种子，这段不能写在for里面，别问我怎么知道的
+		for (i = 0; i < 50; i++)
+		{
+			ch[i] = rand() % 26 + 'a';//rand()%26是零到25的随机数字
+		}
+		printf("%s\n", ch);
+		ch[50] = '\0';
+		int count = 0;
+		time_t start_time,end_time;
+		for (i = 0; i < 50; i++)
+		{
+			a = _getch();//其实也还好就是输入之后不显示其实输入一个字符之后就继续往下执行了
+			if (i == 0)
+			{
+				start_time = time(NULL);
+			}
+			if (a == ch[i])
+			{
+				printf("%c", a);
+				count++;
+			}
+			else
+			{
+				printf("_");
+			}
+		}
+		end_time = time(NULL);
+		printf("\n正确个数为%d", count);
+		printf("\n所用的时间为%d秒", (long int)end_time-start_time);
+		printf("\n正确率为%d %c", count * 100 / 50, '%');
+		while (1)
+		{
+			a = _getch();
+			if (a == ' ')
+			{
+				break;
+			}
+			if (a == 27)//esc的ascii是27
+			{
+				return 0;//结束当前函数
+			}
+		}
+	}
+	return 0;
+}
